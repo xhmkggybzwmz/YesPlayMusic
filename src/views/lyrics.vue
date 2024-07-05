@@ -421,12 +421,21 @@ export default {
       this.getLyric();
       this.getCoverColor();
     },
+    // showLyrics(show) {
+    //   if (show) {
+    //     this.setLyricsInterval();
+    //     this.$store.commit('enableScrolling', false);
+    //   } else {
+    //     clearInterval(this.lyricsInterval);
+    //     this.$store.commit('enableScrolling', true);
+    //   }
+    // },
     showLyrics(show) {
       if (show) {
-        this.setLyricsInterval();
+        // this.setLyricsInterval();
         this.$store.commit('enableScrolling', false);
       } else {
-        clearInterval(this.lyricsInterval);
+        // clearInterval(this.lyricsInterval);
         this.$store.commit('enableScrolling', true);
       }
     },
@@ -435,6 +444,7 @@ export default {
     this.getLyric();
     this.getCoverColor();
     this.initDate();
+    this.setLyricsInterval();
   },
   beforeDestroy: function () {
     if (this.timer) {
@@ -445,7 +455,7 @@ export default {
     clearInterval(this.lyricsInterval);
   },
   methods: {
-    ...mapMutations(['toggleLyrics', 'updateModal']),
+    ...mapMutations(['toggleLyrics', 'updateModal', 'updateCurrentLyric']),
     ...mapActions(['likeATrack']),
     initDate() {
       var _this = this;
@@ -582,7 +592,11 @@ export default {
               block: 'center',
             });
         }
-      }, 50);
+        if (this.player.playing) {
+          console.log(JSON.stringify(this.getHighlightedLyric()));
+          this.updateCurrentLyric(this.getHighlightedLyric());
+        }
+      }, 75);
     },
     moveToFMTrash() {
       this.player.moveToFMTrash();
@@ -613,6 +627,20 @@ export default {
     },
     mute() {
       this.player.mute();
+    },
+    getHighlightedLyric() {
+      const index = this.highlightLyricIndex;
+      const highlightedLyric = this.lyricToShow[index];
+
+      if (highlightedLyric) {
+        let lyricText = highlightedLyric.contents[0] || '';
+        if (highlightedLyric.contents[1]) {
+          lyricText += `\n${highlightedLyric.contents[1]}`;
+        }
+        return lyricText;
+      } else {
+        return 'No lyric is highlighted at the moment.';
+      }
     },
   },
 };

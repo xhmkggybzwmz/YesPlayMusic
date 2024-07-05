@@ -177,6 +177,11 @@
         </div>
       </div>
     </div>
+    <div class="controls2">
+      <div class="blank">
+        <div class="lyric">{{ currentLyric }}</div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -196,7 +201,7 @@ export default {
     VueSlider,
   },
   computed: {
-    ...mapState(['player', 'settings', 'data']),
+    ...mapState(['player', 'settings', 'data', 'currentLyric']),
     currentTrack() {
       return this.player.currentTrack;
     },
@@ -283,7 +288,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  height: 64px;
+  height: 165px;
   backdrop-filter: saturate(180%) blur(30px);
   // background-color: rgba(255, 255, 255, 0.86);
   background-color: var(--color-navbar-bg);
@@ -305,11 +310,21 @@ export default {
 .controls {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  height: 100%;
+  height: 62px;
   padding: {
     right: 10vw;
     left: 10vw;
   }
+}
+
+.controls2 {
+  display: grid;
+  height: 95px;
+  padding: {
+    right: 10vw;
+    left: 10vw;
+  }
+  border-top: 1px solid #ccc;
 }
 
 @media (max-width: 1336px) {
@@ -443,5 +458,20 @@ export default {
   &:active {
     transform: unset;
   }
+}
+
+.lyric {
+  width: 100%;
+  height: 100%;
+  font-size: 30px;
+  color: var(--color-text);
+  text-align: center;
+  margin-top: 8px;
+  opacity: 0.98;
+  display: block;
+  word-break: break-all;
+  white-space: pre-wrap;
+  overflow: visible;
+  text-overflow: clip;
 }
 </style>

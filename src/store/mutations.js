@@ -75,4 +75,7 @@ export default {
   updateTitle(state, title) {
     state.title = title;
   },
+  updateCurrentLyric(state, lyric) {
+    state.currentLyric = lyric;
+  },
 };
